@@ -19,14 +19,14 @@ USE `ProjetoFarmacia` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ProjetoFarmacia`.`Cliente` (
   `idCliente` INT NOT NULL,
-  `Nome` VARCHAR(80) NOT NULL,
+  `Nome` VARCHAR(60) NOT NULL,
   `NIF` VARCHAR(9) NULL,
   `Telemovel` VARCHAR(20) NOT NULL,
-  `eMail` VARCHAR(100) NULL,
+  `eMail` VARCHAR(45) NULL,
   `Pass` VARCHAR(30) NOT NULL,
-  `Cidade` VARCHAR(75) NULL,
+  `Cidade` VARCHAR(30) NULL,
   `CodigoPostal` VARCHAR(45) NULL,
-  `Rua` VARCHAR(75) NULL,
+  `Rua` VARCHAR(50) NULL,
   PRIMARY KEY (`idCliente`))
 ENGINE = InnoDB;
 
@@ -36,16 +36,16 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ProjetoFarmacia`.`Funcionario` (
   `idFuncionario` INT NOT NULL,
-  `Nome` VARCHAR(80) NOT NULL,
+  `Nome` VARCHAR(60) NOT NULL,
   `IBAN` VARCHAR(25) NOT NULL,
   `NISS` VARCHAR(11) NOT NULL,
   `Telemovel` VARCHAR(20) NOT NULL,
   `Salario` DECIMAL(6,2) NOT NULL,
   `Pass` VARCHAR(30) NOT NULL,
-  `eMail` VARCHAR(100) NULL,
-  `Cidade` VARCHAR(75) NULL,
+  `eMail` VARCHAR(45) NULL,
+  `Cidade` VARCHAR(30) NULL,
   `CodigoPostal` VARCHAR(45) NULL,
-  `Rua` VARCHAR(75) NULL,
+  `Rua` VARCHAR(50) NULL,
   PRIMARY KEY (`idFuncionario`))
 ENGINE = InnoDB;
 
