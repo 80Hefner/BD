@@ -1,4 +1,4 @@
--- Trigger ativado quando é inserida uma linha fatura numa fatura
+-- Trigger ativado quando é inserida uma linha na tabela LinhaFatura
 DROP TRIGGER IF EXISTS insere_na_fatura;
 
 DELIMITER //
