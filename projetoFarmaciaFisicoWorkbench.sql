@@ -20,8 +20,8 @@ USE `ProjetoFarmacia` ;
 CREATE TABLE IF NOT EXISTS `ProjetoFarmacia`.`Cliente` (
   `idCliente` INT NOT NULL,
   `Nome` VARCHAR(80) NOT NULL,
-  `NIF` INT NULL,
-  `Telemovel` INT NOT NULL,
+  `NIF` VARCHAR(9) NULL,
+  `Telemovel` VARCHAR(20) NOT NULL,
   `eMail` VARCHAR(100) NULL,
   `Pass` VARCHAR(30) NOT NULL,
   `Cidade` VARCHAR(75) NULL,
@@ -40,11 +40,12 @@ CREATE TABLE IF NOT EXISTS `ProjetoFarmacia`.`Funcionario` (
   `IBAN` VARCHAR(25) NOT NULL,
   `NISS` VARCHAR(11) NOT NULL,
   `Telemovel` VARCHAR(20) NOT NULL,
+  `Salario` DECIMAL(6,2) NOT NULL,
+  `Pass` VARCHAR(30) NOT NULL,
   `eMail` VARCHAR(100) NULL,
   `Cidade` VARCHAR(75) NULL,
   `CodigoPostal` VARCHAR(20) NULL,
   `Rua` VARCHAR(75) NULL,
-  `Salario` DECIMAL(6,2) NOT NULL,
   PRIMARY KEY (`idFuncionario`))
 ENGINE = InnoDB;
 
@@ -54,22 +55,22 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ProjetoFarmacia`.`Fatura` (
   `idFatura` INT NOT NULL,
+  `Funcionario` INT NOT NULL,
+  `Cliente` INT NOT NULL,
   `DataFatura` DATETIME NOT NULL,
   `Desconto` INT NOT NULL,
   `IVA` INT NOT NULL,
   `PrecoTotal` DECIMAL(6,2) NOT NULL,
-  `Funcionario_idFuncionário` INT NOT NULL,
-  `Cliente_idCliente` INT NOT NULL,
   PRIMARY KEY (`idFatura`),
-  INDEX `fk_Fatura_Funcionário_idx` (`Funcionario_idFuncionário` ASC) VISIBLE,
-  INDEX `fk_Fatura_Cliente1_idx` (`Cliente_idCliente` ASC) VISIBLE,
+  INDEX `fk_Fatura_Funcionário_idx` (`Funcionario` ASC) VISIBLE,
+  INDEX `fk_Fatura_Cliente1_idx` (`Cliente` ASC) VISIBLE,
   CONSTRAINT `fk_Fatura_Funcionário`
-    FOREIGN KEY (`Funcionario_idFuncionário`)
+    FOREIGN KEY (`Funcionario`)
     REFERENCES `ProjetoFarmacia`.`Funcionario` (`idFuncionario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Fatura_Cliente1`
-    FOREIGN KEY (`Cliente_idCliente`)
+    FOREIGN KEY (`Cliente`)
     REFERENCES `ProjetoFarmacia`.`Cliente` (`idCliente`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -77,35 +78,19 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ProjetoFarmacia`.`ReceitasFatura`
+-- Table `ProjetoFarmacia`.`Produto`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ProjetoFarmacia`.`ReceitasFatura` (
-  `codReceita` INT NOT NULL,
-  `Fatura_idFatura` INT NOT NULL,
-  PRIMARY KEY (`codReceita`),
-  INDEX `fk_ReceitasFatura_Fatura1_idx` (`Fatura_idFatura` ASC) VISIBLE,
-  CONSTRAINT `fk_ReceitasFatura_Fatura1`
-    FOREIGN KEY (`Fatura_idFatura`)
-    REFERENCES `ProjetoFarmacia`.`Fatura` (`idFatura`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `ProjetoFarmacia`.`ProdutoFarmaceutico`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ProjetoFarmacia`.`ProdutoFarmaceutico` (
+CREATE TABLE IF NOT EXISTS `ProjetoFarmacia`.`Produto` (
   `idProduto` INT NOT NULL,
-  `Designacao` VARCHAR(45) NOT NULL,
-  `Categoria` VARCHAR(45) NOT NULL,
-  `Laboratorio` VARCHAR(45) NOT NULL,
-  `Receita` CHAR(1) BINARY NOT NULL,
-  `Validade` DATETIME NOT NULL,
-  `UnidadesEmbalagem` VARCHAR(10) NOT NULL,
-  `QuantidadeEmbalagem` DECIMAL(6,2) NOT NULL,
-  `EmbalagensEmStock` INT NOT NULL,
+  `Designacao` VARCHAR(20) NOT NULL,
+  `Laboratorio` VARCHAR(75) NOT NULL,
+  `Administracao` VARCHAR(20) NOT NULL,
+  `ReceitaMedica` CHAR(1) NOT NULL,
+  `Dosagem` VARCHAR(20) NOT NULL,
+  `QuantidadeEmbalagem` INT NOT NULL,
   `Preco` DECIMAL(6,2) NOT NULL,
+  `Validade` DATETIME NOT NULL,
+  `EmbalagensEmStock` INT NOT NULL,
   PRIMARY KEY (`idProduto`))
 ENGINE = InnoDB;
 
@@ -114,20 +99,21 @@ ENGINE = InnoDB;
 -- Table `ProjetoFarmacia`.`LinhaFatura`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ProjetoFarmacia`.`LinhaFatura` (
+  `Fatura` INT NOT NULL,
+  `Produto` INT NOT NULL,
   `PrecoUnitario` DECIMAL(6,2) NOT NULL,
   `PrecoTotal` DECIMAL(6,2) NOT NULL,
   `Quantidade` INT NOT NULL,
-  `Fatura_idFatura` INT NOT NULL,
-  `ProdutoFarmaceutico_idProduto` INT NOT NULL,
-  INDEX `fk_Linha-Fatura_Produto-Famacêutico1_idx` (`ProdutoFarmaceutico_idProduto` ASC) VISIBLE,
+  INDEX `fk_Linha-Fatura_Produto-Famacêutico1_idx` (`Produto` ASC) VISIBLE,
+  PRIMARY KEY (`Fatura`, `Produto`),
   CONSTRAINT `fk_Linha-Fatura_Fatura1`
-    FOREIGN KEY (`Fatura_idFatura`)
+    FOREIGN KEY (`Fatura`)
     REFERENCES `ProjetoFarmacia`.`Fatura` (`idFatura`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Linha-Fatura_Produto-Famacêutico1`
-    FOREIGN KEY (`ProdutoFarmaceutico_idProduto`)
-    REFERENCES `ProjetoFarmacia`.`ProdutoFarmaceutico` (`idProduto`)
+    FOREIGN KEY (`Produto`)
+    REFERENCES `ProjetoFarmacia`.`Produto` (`idProduto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
