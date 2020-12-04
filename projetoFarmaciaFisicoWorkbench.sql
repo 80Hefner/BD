@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `ProjetoFarmacia`.`Funcionario` (
   `Pass` VARCHAR(30) NOT NULL,
   `eMail` VARCHAR(100) NULL,
   `Cidade` VARCHAR(75) NULL,
-  `CodigoPostal` VARCHAR(20) NULL,
+  `CodigoPostal` VARCHAR(45) NULL,
   `Rua` VARCHAR(75) NULL,
   PRIMARY KEY (`idFuncionario`))
 ENGINE = InnoDB;
