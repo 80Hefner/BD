@@ -135,3 +135,17 @@ END //
 DELIMITER ;
 
 -- CALL inserir_linha_fatura(7, 1, 5.99, 5.99, 1);
+
+-- Registar novos funcionários
+DROP PROCEDURE IF EXISTS registar_funcionario;
+
+DELIMITER //
+CREATE PROCEDURE registar_funcionario (IN idFuncionario INT, IN Nome VARCHAR(60), IN IBAN VARCHAR(25), IN NISS VARCHAR(11), IN Telemovel VARCHAR(20),
+			IN Salario DECIMAL(6,2), IN Pass VARCHAR(30), IN eMail VARCHAR(45), IN Cidade VARCHAR(30), IN CodigoPostal VARCHAR(45), IN Rua VARCHAR(50))
+BEGIN
+	INSERT INTO funcionario (idFuncionario, Nome, IBAN, NISS, Telemovel, Salario, Pass, eMail, Cidade, CodigoPostal, Rua)
+	VALUES (idFuncionario, Nome, IBAN, NISS, Telemovel, Salario, Pass, eMail, Cidade, CodigoPostal, Rua);
+END //
+DELIMITER ;
+
+-- CALL registar_funcionario(5, 'Jerónimo de Sousa', 'PT50547768716664920892230', '67203057242', '900000000', 1500, 'StalinGod', 'avanteportugal@pcp.pt','Lisboa', '1234-000 Chelas', 'Rua do Pão, 000');
